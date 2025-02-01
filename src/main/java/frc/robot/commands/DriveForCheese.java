@@ -30,6 +30,9 @@ public class DriveForCheese extends Command {
     else if (m_driveSubsystem.getdistance() >= 5) {
       m_driveSubsystem.driveforward(0);
     }
+    else if(true) {
+      //
+    }
 
     m_driveSubsystem.feedMotors();
   }
