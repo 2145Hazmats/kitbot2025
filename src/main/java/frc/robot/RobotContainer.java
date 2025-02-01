@@ -70,7 +70,7 @@ public class RobotContainer {
     // Set the A button to run the "runRoller" command from the factory with a fixed
     // value ejecting the gamepiece while the button is held
     driverController.b()
-        .whileTrue(rollerSubsystem.runRoller(.5));
+        .whileTrue(rollerSubsystem.runRoller(-.6));
 
       // First Turn
     driverController.a()
@@ -102,6 +102,6 @@ public class RobotContainer {
     // An example command will be run in autonomous
     //return autoChooser.getSelected();
     //return Autos.exampleAuto(driveSubsystem,rollerSubsystem);
-    return new DriveForCheese(driveSubsystem);
+    return Autos.exampleAuto(driveSubsystem, rollerSubsystem);//DriveForCheese(driveSubsystem);
   } 
 }

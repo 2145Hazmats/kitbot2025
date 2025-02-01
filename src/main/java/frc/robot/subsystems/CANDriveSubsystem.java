@@ -4,7 +4,7 @@
 
 package frc.robot.subsystems;
 
-import java.security.PublicKey;
+//import java.security.PublicKey;
 import java.util.function.DoubleSupplier;
 
 import com.revrobotics.spark.SparkBase.PersistMode;
@@ -14,6 +14,7 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.hal.ConstantsJNI;
+import edu.wpi.first.units.measure.Distance;
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -39,9 +40,8 @@ public class CANDriveSubsystem extends SubsystemBase {
     rightLeader = new SparkMax(DriveConstants.RIGHT_LEADER_ID, MotorType.kBrushless);
        // rightFollower = new SparkMax(DriveConstants.RIGHT_FOLLOWER_ID, MotorType.kBrushless);
        
-
-       
-
+   leftLeader.getEncoder().setPosition(0);
+   rightLeader.getEncoder().setPosition(0);
        gyro = new ADIS16470_IMU();
 
     // set up differential drive class
@@ -89,6 +89,13 @@ public class CANDriveSubsystem extends SubsystemBase {
 
   public void feedMotors() {
     drive.feed();
+  }
+
+  public void resetMotors() {
+
+    leftLeader.getEncoder().setPosition(0);
+    rightLeader.getEncoder().setPosition(0);
+    
   }
 
   @Override
