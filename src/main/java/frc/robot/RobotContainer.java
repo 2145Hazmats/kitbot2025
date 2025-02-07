@@ -6,14 +6,15 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.RollerConstants;
 import frc.robot.commands.Autos;
-import frc.robot.commands.DriveForCheese;
 import frc.robot.subsystems.CANDriveSubsystem;
 import frc.robot.subsystems.CANRollerSubsystem;
+import pabeles.concurrency.ConcurrencyOps.Reset;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -69,16 +70,26 @@ public class RobotContainer {
   private void configureBindings() {
     // Set the A button to run the "runRoller" command from the factory with a fixed
     // value ejecting the gamepiece while the button is held
+<<<<<<< Updated upstream
     driverController.b()
         .whileTrue(rollerSubsystem.runRoller(-.6));
+=======
+    driverController.rightBumper()
+        .whileTrue(rollerSubsystem.runRoller(.5));
+>>>>>>> Stashed changes
 
       // First Turn
-    driverController.a()
-        .whileTrue(driveSubsystem.faceAngle(270, .4));
+    //driverController.a()
+        //.whileTrue(driveSubsystem.faceAngle(0, 1));
       // Second Turn
-    driverController.y()
-        .whileTrue(driveSubsystem.faceAngle(0, .4));
-
+    //driverController.y()
+       // .whileTrue(driveSubsystem.faceAngle(0, .4));
+    driverController.y().onTrue(driveSubsystem.resetDistance());
+    driverController.a().whileTrue(driveSubsystem.pidDriveDistance());
+    driverController.x()
+        .whileTrue(driveSubsystem.KickCheese(0, .09));
+        driverController.b()
+        .onTrue(Commands.runOnce(() -> driveSubsystem.resetgyro()));
     // Set the default command for the drive subsystem to the command provided by
     // factory with the values provided by the joystick axes on the driver
     // controller. The Y axis of the controller is inverted so that pushing the
@@ -98,10 +109,15 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand() {
+  
     // An example command will be run in autonomous
     //return autoChooser.getSelected();
     //return Autos.exampleAuto(driveSubsystem,rollerSubsystem);
+<<<<<<< Updated upstream
     return Autos.exampleAuto(driveSubsystem, rollerSubsystem);//DriveForCheese(driveSubsystem);
   } 
+=======
+    
+>>>>>>> Stashed changes
 }
+

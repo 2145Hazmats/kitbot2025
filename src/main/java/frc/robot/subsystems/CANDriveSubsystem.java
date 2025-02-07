@@ -14,7 +14,11 @@ import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.config.SparkMaxConfig;
 
 import edu.wpi.first.hal.ConstantsJNI;
+<<<<<<< Updated upstream
 import edu.wpi.first.units.measure.Distance;
+=======
+import edu.wpi.first.math.controller.PIDController;
+>>>>>>> Stashed changes
 import edu.wpi.first.wpilibj.ADIS16470_IMU;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -30,6 +34,7 @@ public class CANDriveSubsystem extends SubsystemBase {
   private final SparkMax rightLeader;
 
   private final ADIS16470_IMU gyro;
+  private final PIDController pid;
  
   private final DifferentialDrive drive;
   private double distance;
@@ -43,6 +48,9 @@ public class CANDriveSubsystem extends SubsystemBase {
    leftLeader.getEncoder().setPosition(0);
    rightLeader.getEncoder().setPosition(0);
        gyro = new ADIS16470_IMU();
+       pid = new PIDController(0.01, 0, 0);
+
+
 
     // set up differential drive class
     drive = new DifferentialDrive(leftLeader, rightLeader);
@@ -86,16 +94,37 @@ public class CANDriveSubsystem extends SubsystemBase {
   public double getdistance(){
     return distance;
   }
+  public void resetgyro() {
+gyro.reset();
 
+  }
   public void feedMotors() {
     drive.feed();
   }
 
+<<<<<<< Updated upstream
   public void resetMotors() {
 
     leftLeader.getEncoder().setPosition(0);
     rightLeader.getEncoder().setPosition(0);
     
+=======
+  public Command resetDistance() {
+    return Commands.runOnce(() -> { 
+      leftLeader.getEncoder().setPosition(0);
+      rightLeader.getEncoder().setPosition(0); }
+      , this);
+      
+
+}
+
+  public Command pidDriveDistance() {
+   return Commands.run(() -> {
+    double result = pid.calculate(distance);
+    leftLeader.set(-result);
+    rightLeader.set(-result);}
+   ); 
+>>>>>>> Stashed changes
   }
 
   @Override
@@ -105,6 +134,7 @@ public class CANDriveSubsystem extends SubsystemBase {
     SmartDashboard.putNumber("getAngle", gyro.getAngle());
     SmartDashboard.putNumber("complementaryXAngle", gyro.getXComplementaryAngle());
     SmartDashboard.putNumber("complementaryYAngle", gyro.getYComplementaryAngle());
+    SmartDashboard.putData("pid", pid);
   }
 
   // Command to drive the robot with joystick inputs
@@ -120,11 +150,11 @@ public class CANDriveSubsystem extends SubsystemBase {
 
     return Commands.run(()-> {
     
-    if (gyro.getAngle() < setpoint - 8){
+    if (gyro.getAngle() < setpoint){
       leftLeader.set(speed);
       rightLeader.set(-speed);
     } 
-    else if (gyro.getAngle() > setpoint + 8) {
+    else if (gyro.getAngle() > setpoint) {
       leftLeader.set(-speed);
       rightLeader.set(speed);
     }
@@ -135,7 +165,25 @@ public class CANDriveSubsystem extends SubsystemBase {
     }}
     , this);
   }
+  public Command KickCheese(double setpoint, double speed) {
 
+    return Commands.run(()-> {
+    
+    if (gyro.getAngle() < -3){
+      leftLeader.set(speed);
+      rightLeader.set(-speed);
+    } 
+    else if (gyro.getAngle() > 3) {
+      leftLeader.set(-speed);
+      rightLeader.set(speed);
+    }
+    else  {
+      leftLeader.set(-.3);
+      rightLeader.set(-.3);
+    
+    }}
+    , this);
+  }
   public void driveforward(double speed) {
     leftLeader.set(-speed);
     rightLeader.set(-speed);

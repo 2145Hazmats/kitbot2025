@@ -14,11 +14,18 @@ import edu.wpi.first.wpilibj2.command.Command;
 //import frc.robot.Constants.RollerConstants;
 import frc.robot.subsystems.CANDriveSubsystem;
 import frc.robot.subsystems.CANRollerSubsystem;
+<<<<<<< Updated upstream
 //import frc.robot.commands.DriveForCheese;
 public final class Autos {
   // Example autonomous command which drives forward for 1 second.
   public static final Command exampleAuto(CANDriveSubsystem driveSubsystem,CANRollerSubsystem roll) {
     return new DriveForCheese(driveSubsystem, 10).withTimeout(1).andThen(driveSubsystem.faceAngle(450, .3).withTimeout(9)).andThen(roll.runRoller(-.66));//.andThen(new DriveForCheese(driveSubsystem,6)); //Commands.run() {DriveForCheese(driveSubsystem);}
    
+=======
+
+public final class Autos {
+  // Example autonomous command which drives forward for 1 second.
+   //Commands.run() {DriveForCheese(driveSubsystem);}
+>>>>>>> Stashed changes
   } 
-}
+
